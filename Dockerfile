@@ -48,5 +48,6 @@ RUN rm /bin/nvim \
     &&nvim --appimage-extract \
     && cd squashfs-root/ \
     && mv AppRun nvim \
-    && echo "export PATH=\$PATH:`echo $PWD`" >> ~/.zshrc
+    && echo "export PATH=\$PATH:`echo $PWD`" >> $HOME/.zshrc \
+    && source $HOME/.zshrc
 
