@@ -30,9 +30,23 @@ RUN apt update \
 RUN git clone https://github.com/wbthomason/packer.nvim \
         $HOME/.local/share/nvim/site/pack/packer/start/packer.nvim 
 
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+#RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+RUN wget https://gitee.com/umico/ohmyzsh/raw/master/tools/install.sh -O - | zsh || true
 
-RUN cd $HOME && mkdir -p $HOME/code/github && cd $HOME/code/github \ 
+RUN DEBIAN_FRONTEND=noninteractive apt install -y direnv
+
+RUN cd $HOME \
+    && mkdir -p $HOME/code/github \
+    && cd $HOME/code/github \
     && git clone https://github.com/RunningIkkyu/dotfiles.git \
-    && cd dotfiles  && ./install.sh
+    && cd dotfiles  \
+    && sh install.sh 
+
+RUN rm /bin/nvim \
+    && mkdir -p $HOME/var \
+    && cd $HOME/var \
+    &&nvim --appimage-extract \
+    && cd squashfs-root/ \
+    && mv AppRun nvim \
+    && echo "export PATH=\$PATH:`echo $PWD`" >> ~/.zshrc
 
