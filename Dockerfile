@@ -33,6 +33,6 @@ RUN git clone https://github.com/wbthomason/packer.nvim \
 RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 
 RUN cd $HOME && mkdir -p $HOME/code/github && cd $HOME/code/github \ 
-    && git clone git@github.com:RunningIkkyu/dotfiles.git \ 
+    && git clone https://github.com/RunningIkkyu/dotfiles.git
     && cd dotfiles  && ./install.sh
 
