@@ -63,7 +63,6 @@ RUN  cd $HOME/.config/nvim \
     #&& nvim +"autocmd User PackerComplete quitall" +"PackerInstall" \
     && git config --global http.lowSpeedLimit 1000\
     && git config --global http.lowSpeedTime 30 \
-    && nvim --headless +"lua require('packer').init({git={clone_timeout=240}})" \
-                       +"autocmd User PackerComplete quitall" +PackerInstall \
+    && nvim --headless +"autocmd User PackerComplete quitall" +PackerInstall \
     && mv init.lua.bk init.lua
 
