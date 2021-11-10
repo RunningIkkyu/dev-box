@@ -15,22 +15,24 @@ RUN apt update \
         direnv \
         sudo
 
-RUN git config --global http.sslVerify false
+# Config git, speed up git clone in China
+RUN git config --global http.sslVerify false && \
+    git config --global url."https://hub.fastgit.org".insteadOf "https://github.com"
 
 # oh-my-zsh
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+#RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+RUN wget https://hub.fastgit.org/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 
 # Install fzf, after oh-my-zsh
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 # Replace "github.com" to "hub.fastgit.org" in ~/fzf/install
-#RUN sed -i 's/github.com/hub.fastgit.org/g' ~/.fzf/install
+RUN sed -i 's/github.com/hub.fastgit.org/g' ~/.fzf/install
 RUN ~/.fzf/install --all
 
 # Install nvim
 # if the system cannot execute appimage, extract nvim from the image.
 RUN mkdir -p $HOME/var && cd $HOME/var && \
-    wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage && \
-    #wget https://download.fastgit.org/neovim/neovim/releases/download/nightly/nvim.appimage && \
+    wget https://download.fastgit.org/neovim/neovim/releases/download/nightly/nvim.appimage && \
     chmod +x nvim.appimage && \
     ./nvim.appimage --appimage-extract &&  \
     cd squashfs-root && \
